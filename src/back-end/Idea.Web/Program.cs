@@ -72,7 +72,9 @@ namespace Idea.Web
             {
                 options.AddPolicy("MyPolicy", policyBuilder =>
                 {
-                    policyBuilder.WithOrigins("http://localhost:63342");
+                    policyBuilder.WithOrigins("http://localhost:63342")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
                 });
             });
         }

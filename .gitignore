@@ -204,7 +204,7 @@ csx/
 ecf/
 rcf/
 
-# Windows Store app package directories and files
+# Windows Store app.js package directories and files
 AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
@@ -348,3 +348,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+.idea/

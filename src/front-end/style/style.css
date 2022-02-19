@@ -1,0 +1,163 @@
+#app {
+    width: 100vw;
+    height: 100vh;
+
+    padding: 0;
+    margin:0;
+
+    background: url("../assets/images/guest-background.jpg") no-repeat;
+}
+
+#app #app-blurer {
+    position: absolute;
+    top:0;
+    left:0;
+
+    z-index: 2;
+
+    width: 100vw;
+    height: 100vh;
+
+    padding: 0;
+    margin:0;
+
+    opacity: 75%;
+
+    background: #000000;
+}
+
+#app #content {
+    z-index: 2000 !important;
+}
+
+#app #content * {
+    z-index: 2000 !important;
+}
+
+/* Bootstrap overrides */
+
+.w-65 {
+    width: 65%;
+}
+
+.btn-transparent {
+    background: transparent;
+}
+
+.btn-idea {
+    background-color: transparent;
+    border: 2px solid #9c0e4a;
+    color: white;
+}
+
+.border-1-white {
+    border: 1px solid white;
+}
+
+input:focus {
+    background: transparent !important;
+    color: white !important;
+    border-color: #9c0e4a !important;
+    box-shadow: 0 0 10px #9c0e4a !important; /* THE APP COLOR */
+    outline: 0 none !important;
+}
+
+button:hover {
+    background-color: #9c0e4a !important;
+    color: white !important;
+}
+
+/* Common Styles */
+
+.hr-2 {
+    opacity: 75%;
+    background: white !important;
+    height: 2px !important;
+}
+
+/* Page Styles */
+
+/* Login Page */
+
+.login-form-handler {
+    position: fixed;
+    top: 25%;
+    left: 37.3%;
+
+    height: 100vh;
+}
+
+.login-form-handler label {
+    font-size: 1.25em;
+}
+
+.login-form-handler input {
+    background: transparent;
+    color: white;
+}
+
+/* Home page */
+
+.home-page-handler {
+
+}
+
+.home-page-handler .core-hud {
+    position: absolute;
+    top: 94%;
+    left: 80%;
+    width: 20%;
+}
+
+.home-page-handler .core-hud .ship-button {
+    border-radius: 90%;
+    border: 5px solid white;
+    width: 45px;
+    height: 45px;
+}
+
+.home-page-handler .core-hud #ship-status-button {
+    background: url("../assets/icons/ship.png") white no-repeat;
+    background-size: cover;
+}
+
+.home-page-handler .core-hud #ship-stations-button {
+    background: url("../assets/icons/stations.png") white no-repeat;
+    background-size: cover;
+}
+
+.home-page-handler .core-hud #ship-map-button {
+    background: url("../assets/icons/map.png") white no-repeat;
+    background-size: cover;
+}
+
+.home-page-handler .core-hud #ship-drones-button {
+    background: url("../assets/icons/drone.png") white no-repeat;
+    background-size: cover;
+}
+
+.home-page-handler .core-hud #settings-button {
+    background: url("../assets/icons/settings.png") white no-repeat;
+    background-size: cover;
+}
+.home-page-handler .core-hud #settings-button:hover {
+    background: url("../assets/icons/settings-hover.gif") white no-repeat;
+    background-size: cover;
+}
+
+.home-page-handler .settings-menu-modal .modal-content {
+    margin-top: 30% !important;
+    background-color: transparent;
+    border: 3px solid #9c0e4a;
+}
+
+.home-page-handler .settings-menu-modal .modal-content .modal-body {
+    padding-top: 0;
+}
+
+.home-page-handler .settings-menu-modal .modal-content .modal-header {
+    border: none;
+    padding-bottom: 0;
+}
+
+

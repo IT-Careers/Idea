@@ -59,3 +59,13 @@ These rare the core features that the game supports:
     * Coordinates (x, y, z)
     * Type: Star System, Empty Space, Nebula, Asteroid Belt
     * List<Celestial Bodies>
+
+
+## Visual Interface
+
+The Visual Interface will be implemented with JavaScript and HTML and CSS. Probably big part of 
+it will be drawing (Canvas or WebGL).
+
+First Page is Login / Register Page.
+
+

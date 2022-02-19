@@ -9,7 +9,5 @@ namespace Idea.Service
         Task<IdeaUserServiceModel> GetByIdAsync(string id);
 
         Task<IdeaUserServiceModel> AuthenticateAsync(string username, string password);
-
-
     }
 }
