@@ -23,14 +23,14 @@ These rare the core features that the game supports:
     * Carbon (Broken down from Diamond)
     * Carbon Dioxide (Breath out of you, absorbed and re-issued somewhere)
   * Basic Materials (unprocessed: needs processing) - Titanium, Algae, Diamond, Earthium, Uranium, Water, Food
-  * Complex Materials - Adamantium (Titanium + Diamond), Heavy water (Water + Oxygen)
+  * Complex Materials Recipe - Adamantium (Titanium + Diamond), Heavy water (Water + Oxygen)
   * Stations (plants) - These take capacity, these consume energy to function, and take materials to build
     * Processing Station - Hard Material processing station (Titanium, Diamond, Adamantium etc.)
     * Nuclear Station - (Uranium etc.)
     * Necessities Station - Food, Water, Algae (with 90% loss rate)
     * Farm Station - Algae (generates Oxygen), Food (plant) generation
     * Recycling station - think of it later
-    * Service Station - for ships
+    * Service Station - for ships (NOT FOR NOW)
   * Buildings
     * BasicBuilding -
       * Just a basic building with capacity
@@ -43,18 +43,20 @@ These rare the core features that the game supports:
   * Ship
     * Has capacity
     * Has Upgradable assets (engine)
-  * Celestial Bodies
-    * Planet
+  * Drones (require energy)
+    * Scavenger Drone - scans and collects materials from celestial object
+    * Repair Drone - repairs ship
+    * Builder Drone - builds stations
+  * Celestial Objects
+    * Planetary
       * Think of planet properties
       * Deposits
       * Atmosphere
+      * Terrain
+      * IsHabitable
+      * PlanetaryType: Planet, Asteroid, Moon, Comet
     * Star
       * Think of star properties
-    * Moon
-      * Deposits
-      * Terrain
-    * Asteroid
-      * Should be with planet properties but miniature
   * Locations
     * Coordinates (x, y, z)
     * Type: Star System, Empty Space, Nebula, Asteroid Belt

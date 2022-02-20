@@ -89,7 +89,7 @@ namespace Idea.Web
             }
 
             app.UseCors("MyPolicy");
-
+             
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

@@ -6,6 +6,7 @@ const app = (() => {
 
     const configureCore = () => {
         router.attachEvents();
+        router.redirect("/home");
     }
 
     const configureServices = () => {
