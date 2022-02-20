@@ -4,8 +4,8 @@ namespace Idea.Service
 {
     public interface ILocationService 
     {
-        LocationServiceModel CreeateLocation(LocationServiceModel locationServiceModel);
+        Task<LocationServiceModel> CreeateLocation(LocationServiceModel locationServiceModel);
 
-        LocationServiceModel GetLocationByCoordinate(CoordinateServiceModel coordinateServiceModel);
+        Task<LocationServiceModel> GetLocationByCoordinate(CoordinateServiceModel coordinateServiceModel);
     }
 }

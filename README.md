@@ -58,7 +58,8 @@ These rare the core features that the game supports:
     * Star
       * Think of star properties
   * Locations
-    * Coordinates (x, y, z)
+    * Coordinates (x, y, z) - changed to Position
+    * Position has coordinates
     * Type: 
       * Star System - 1 000 000 000 000 
       * Empty Space - 5 000 000 000

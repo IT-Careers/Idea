@@ -1,4 +1,4 @@
-﻿namespace Idea.Data.Models.Locations
+﻿namespace Idea.Data.Models.Shared
 {
     public class Coordinate : BaseEntity
     {

@@ -6,6 +6,8 @@
 
         public LocationTypeServiceModel LocationType { get; set; }
 
-        public List<CoordinateServiceModel> Coordinates { get; set; }
+        public string PositionId { get; set; }
+
+        public PositionServiceModel Position { get; set; }
     }
 }

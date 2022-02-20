@@ -1,4 +1,6 @@
-﻿namespace Idea.Data.Models.Locations
+﻿using Idea.Data.Models.Shared;
+
+namespace Idea.Data.Models.Locations
 {
     public class Location : BaseEntity
     {
@@ -6,6 +8,8 @@
         
         public LocationType LocationType { get; set; }
     
-        public List<Coordinate> Coordinates { get; set; } // Always 8
+        public string PositionId { get; set; }
+
+        public Position Position { get; set; }
     }
 }

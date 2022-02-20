@@ -1,4 +1,5 @@
 ﻿using Idea.Data.Models.Locations;
+using Idea.Data.Models.Shared;
 using Idea.Service.Models;
 
 namespace Idea.Service.Mapping
@@ -26,8 +27,8 @@ namespace Idea.Service.Mapping
         {
             return new Location
             {
-                LocationType = locationServiceModel.LocationType.ToEntity(),
-                Coordinates = locationServiceModel.Coordinates.Select(coordinate => coordinate.ToEntity()).ToList(),
+                LocationTypeId = locationServiceModel.LocationTypeId,
+                Position = locationServiceModel.Position.ToEntity(),
             };
         }
 
@@ -37,7 +38,7 @@ namespace Idea.Service.Mapping
             {
                 Id = location.Id,
                 LocationType = location.LocationType.ToServiceModel(),
-                Coordinates = location.Coordinates.Select(coordinate => coordinate.ToServiceModel()).ToList()
+                Position = location.Position.ToServiceModel()
             };
         }
     }

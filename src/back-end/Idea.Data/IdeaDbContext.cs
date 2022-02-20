@@ -2,6 +2,7 @@
 using Idea.Data.Models.CelestialObjects;
 using Idea.Data.Models.Locations;
 using Idea.Data.Models.Materials;
+using Idea.Data.Models.Shared;
 using Idea.Data.Models.Ships;
 using Idea.Data.Models.Stations;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ namespace Idea.Data
         public virtual DbSet<ComplexMaterialRequirement> ComplexMaterialRequirements { get; set; }
 
         public virtual DbSet<Coordinate> Coordinates { get; set; }
+
+        public virtual DbSet<Position> Positions { get; set; }
 
         public virtual DbSet<LocationType> LocationTypes { get; set; }
 
