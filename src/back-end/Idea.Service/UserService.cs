@@ -10,9 +10,12 @@ namespace Idea.Service
     {
         private readonly IdeaDbContext ideaDbContext;
 
-        public UserService(IdeaDbContext ideaDbContext)
+        private readonly IShipService shipService;
+
+        public UserService(IdeaDbContext ideaDbContext, IShipService shipService)
         {
             this.ideaDbContext = ideaDbContext;
+            this.shipService = shipService;
         }
 
         public async Task<IdeaUserServiceModel> AuthenticateAsync(string username, string password)
@@ -41,6 +44,8 @@ namespace Idea.Service
             IdeaUserServiceModel created = (await this.ideaDbContext.AddAsync(ideaUserServiceModel.ToEntity())).Entity.ToServiceModel();
             
             await this.ideaDbContext.SaveChangesAsync();
+
+            await shipService.CreateShipAsync(created.Id);
 
             return created;
         }

@@ -59,9 +59,34 @@ These rare the core features that the game supports:
       * Think of star properties
   * Locations
     * Coordinates (x, y, z)
-    * Type: Star System, Empty Space, Nebula, Asteroid Belt
+    * Type: 
+      * Star System - 1 000 000 000 000 
+      * Empty Space - 5 000 000 000
+      * Nebula - 1 000 000 000 000 000
+      * Asteroid Field - 30 000 000 000
+      * Celestial Object
     * List<Celestial Bodies>
-
+    * Location Generation Logic -
+      * EXAMPLE: X = 55000, Y = -33000, Z = -25000
+      * Case Star System:
+        * X high = 500000055000
+        * X low = -499999945000
+        * Y high = 499999967000
+        * Y low = -500000033000
+        * Z high = 499999975000
+        * Z low = -500000025000
+        * POINT 1 = X - 500000000000, Z + 500000000000, Y - 500000000000
+        * POINT 2 = X - 500000000000, Y - 500000000000, Z - 500000000000
+        * POINT 3 = X - 500000000000, Z - 500000000000, Y + 500000000000
+        * POINT 4 = X - 500000000000, Z + 500000000000, Y + 500000000000
+        * POINT 5 = X + 500000000000, Z - 500000000000, Y - 500000000000
+        * POINT 6 = X + 500000000000, Z - 500000000000, Y + 500000000000
+        * POINT 7 = X + 500000000000, Z + 500000000000, Y + 500000000000,
+        * POINT 8 = X + 500000000000, Z + 500000000000, Y - 500000000000
+      * When generating Location, we generate micro locations,
+        which are planetary bodies or stars. Each body has micro location
+        When getting location by ship coordinates, we look for the following Priority 
+        Empty Space -> Nebula -> Star System -> Asteroid Field -> Celestial Object 
 
 ## Visual Interface
 

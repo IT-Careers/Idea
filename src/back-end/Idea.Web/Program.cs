@@ -19,6 +19,7 @@ namespace Idea.Web
 
             // Add Custom Services
             builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddTransient<IShipService, ShipService>();
 
             // Add JWT Auth
             // Configure strongly typed settings objects

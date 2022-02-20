@@ -15,9 +15,8 @@ window.application.services.userService = (() => {
 
     const register = (username, password, confirmPassword) => {
         return baseService.post('https://localhost:7186/Users/Register', {username, password, confirmPassword})
-            .then(res => res.json())
             .then(json => {
-                alertService.success('Successfully registered in!');
+                alertService.success('Successfully registered!');
             }).catch(err => alertService.error(err))
     }
 
