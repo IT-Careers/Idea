@@ -4,6 +4,8 @@ namespace Idea.Data.Models.Locations
 {
     public class Location : BaseEntity
     {
+        public string Name { get; set; }
+
         public string LocationTypeId { get; set; }
         
         public LocationType LocationType { get; set; }

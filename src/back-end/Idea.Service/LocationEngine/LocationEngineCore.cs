@@ -9,9 +9,36 @@ namespace Idea.Service.LocationEngine
     {
         private readonly IdeaDbContext ideaDbContext;
 
-        public LocationEngineCore(IdeaDbContext ideaDbContext)
+        private readonly IRandomService randomService;
+
+        private Dictionary<int, long> locationTypesWithHalfPoints;
+
+        private Dictionary<int, string> locationTypesWithNames;
+
+        public LocationEngineCore(IdeaDbContext ideaDbContext, IRandomService randomService)
         {
             this.ideaDbContext = ideaDbContext;
+            this.randomService = randomService;
+            this.InitializeLocationTypes();
+        }
+
+        private void InitializeLocationTypes()
+        {
+            Dictionary<int, long> locationTypesWithHalfPointsResult = new Dictionary<int, long>();
+
+            locationTypesWithHalfPointsResult[0] = LocationEngineConstants.StarSystemHalfPoint;
+            locationTypesWithHalfPointsResult[1] = LocationEngineConstants.EmptySpaceHalfPoint;
+            locationTypesWithHalfPointsResult[2] = LocationEngineConstants.NebulaHalfPoint;
+            locationTypesWithHalfPointsResult[3] = LocationEngineConstants.AsteroidFieldHalfPoint;
+
+            this.locationTypesWithHalfPoints = locationTypesWithHalfPointsResult;
+
+            Dictionary<int, string> locationTypesWithNamesResult = new Dictionary<int, string>();
+
+            locationTypesWithNamesResult[0] = "StarSystem";
+            locationTypesWithNamesResult[1] = "EmptySpace";
+            locationTypesWithNamesResult[2] = "Nebula";
+            locationTypesWithNamesResult[3] = "AsteroidBelt";
         }
 
         private bool IsInCubicalStructure(Position position, Coordinate point)
@@ -48,6 +75,17 @@ namespace Idea.Service.LocationEngine
             return isInCube;
         }
 
+        private long GetActualCoordinateAxisValue(long axisValue, long deltaDiff)
+        {
+            return (Math.Abs(axisValue) - Math.Abs(deltaDiff)) * (axisValue / Math.Abs(axisValue));
+        }
+        
+        private LocationType GetLocationTypeEntity(int locationType) 
+        {
+            return this.ideaDbContext.LocationTypes
+                .SingleOrDefault(locationTypeFromDb => locationTypeFromDb.Name == this.locationTypesWithNames[locationType]);
+        }
+
         public List<Location> GetLocationsForCoordinate(Coordinate coordinate)
         {
             return this.ideaDbContext.Locations
@@ -55,6 +93,94 @@ namespace Idea.Service.LocationEngine
                 .Include(location => location.Position)
                 .Where(location => this.IsInCubicalStructure(location.Position, coordinate))
                 .ToList();
+        }
+
+        public Location GenerateLocation(Coordinate coordinate)
+        {
+            // Generate Location Type
+            int locationTypeIndex = (int) this.randomService.RandomNumber(0, 4);
+            long locationTypeHalfPoint = this.locationTypesWithHalfPoints[locationTypeIndex];
+
+            // Generate Location Coordinates
+            long deltaDiff = this.randomService.RandomNumber(0, locationTypeHalfPoint);
+
+            Coordinate frontLowerLeftPoint = new Coordinate
+            {
+                X = GetActualCoordinateAxisValue(coordinate.X, deltaDiff),
+                Y = GetActualCoordinateAxisValue(coordinate.Y, deltaDiff),
+                Z = GetActualCoordinateAxisValue(coordinate.Z, deltaDiff)
+            };
+
+            Coordinate frontLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate backLowerLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Position locationPosition = new Position
+            {
+                FrontLowerLeft = frontLowerLeftPoint,
+                FrontLowerRight = frontLowerRightPoint,
+                FrontUpperLeft = frontUpperLeftPoint,
+                FrontUpperRight = frontUpperRightPoint,
+                BackLowerLeft = backLowerLeftPoint,
+                BackLowerRight = backLowerRightPoint,
+                BackUpperLeft = backUpperLeftPoint,
+                BackUpperRight = backUpperRightPoint
+            };
+
+            LocationType locationType = this.GetLocationTypeEntity(locationTypeIndex);
+
+            Location location = new Location
+            {
+                LocationType = locationType,
+                Position = locationPosition
+            };
+
+            return location;
         }
     }
 }

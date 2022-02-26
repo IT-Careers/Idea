@@ -17,10 +17,15 @@ window.application.services.htmlService = (() => {
             .then(res => res.text())
             .then(text => loadContent(text));
     }
+    const loadFragment = (fragmentName) => {
+        return fetch('templates/fragments/' + fragmentName + '-fragment.html')
+            .then(res => res.text());
+    }
 
     return {
         clearContent,
         loadContent,
-        loadPage
+        loadPage,
+        loadFragment
     };
 })();

@@ -58,6 +58,7 @@ These rare the core features that the game supports:
     * Star
       * Think of star properties
   * Locations
+    * Direct Vicinity - 15 000 000 000 (Z), X, Y (2 500 000 000 000 000 (half))
     * Coordinates (x, y, z) - changed to Position
     * Position has coordinates
     * Type: 
@@ -70,12 +71,12 @@ These rare the core features that the game supports:
     * Location Generation Logic -
       * EXAMPLE: X = 55000, Y = -33000, Z = -25000
       * Case Star System:
-        * X high = 500000055000
-        * X low = -499999945000
-        * Y high = 499999967000
-        * Y low = -500000033000
-        * Z high = 499999975000
-        * Z low = -500000025000
+        * X high = 500.000.055.000
+        * X low = -499.999.945.000
+        * Y high = 499.999.967.000
+        * Y low = -500.000.033.000
+        * Z high = 499.999.975.000
+        * Z low = -500.000.025.000
         * POINT 1 = X - 500000000000, Z + 500000000000, Y - 500000000000
         * POINT 2 = X - 500000000000, Y - 500000000000, Z - 500000000000
         * POINT 3 = X - 500000000000, Z - 500000000000, Y + 500000000000

@@ -1,4 +1,5 @@
 using Idea.Data;
+using Idea.Data.Models.Locations;
 using Idea.Service;
 using Idea.Service.Models;
 using Idea.Web.Models.Core;
@@ -11,13 +12,45 @@ namespace Idea.Web
 {
     public class Program
     {
+        // TODO: Think of input of seed
+        // TODO: Think of lazy
+        private static int GetCurrentSeed()
+        {
+            int seed = new Random().Next();
+
+            Console.WriteLine("============================");
+            Console.WriteLine("Current seed: " + seed);
+            Console.WriteLine("============================");
+            Console.WriteLine();
+
+            return seed;
+        }
+
+        private static void SeedDatabase(IServiceProvider serviceCollection)
+        {
+            using(var serviceScope = serviceCollection.CreateScope())
+            {
+                using(var ideaDbContext = serviceScope.ServiceProvider.GetService<IdeaDbContext>())
+                {
+                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "StarSystem" });
+                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "EmptySpace" });
+                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "Nebula" });
+                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "AsteroidField" });
+                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "CelestialObject" });
+
+                    ideaDbContext.SaveChanges();
+                }
+            }
+        }
+
         private static void ConfigureServices(WebApplicationBuilder builder)
         {
             // Add DbContext
             builder.Services.AddDbContext<IdeaDbContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+            
             // Add Custom Services
+            builder.Services.AddSingleton<IRandomService>(new RandomService(GetCurrentSeed()));
             builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<IShipService, ShipService>();
 
@@ -48,6 +81,7 @@ namespace Idea.Web
                             // return unauthorized if user no longer exists
                             context.Fail("Unauthorized");
                         }
+                        context.HttpContext.Items["User"] = user;
                         return Task.CompletedTask;
                     }
                 };
@@ -89,10 +123,13 @@ namespace Idea.Web
                 app.UseSwaggerUI();
             }
 
+            SeedDatabase(app.Services);
+
             app.UseCors("MyPolicy");
              
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
@@ -104,7 +141,7 @@ namespace Idea.Web
         {
             var builder = WebApplication.CreateBuilder(args);
             ConfigureServices(builder);
-            
+
             var app = builder.Build();
             ConfigureApp(app);
         }

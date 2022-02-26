@@ -20,6 +20,8 @@ window.application.services.baseService = (() => {
     const request = (url, options) => {
         const authToken = getAuthToken();
 
+        options = options || {};
+
         options.headers = {
             'Content-Type': 'application/json'
         };

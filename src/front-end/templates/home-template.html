@@ -2,13 +2,71 @@
     <div class="core-hud d-flex justify-content-around">
         <button id="ship-status-button" class="ship-button btn btn-transparent"></button>
         <button id="ship-stations-button" class="ship-button btn btn-transparent"></button>
-        <button id="ship-map-button" class="ship-button btn btn-transparent"></button>
+        <button id="ship-map-button" class="ship-button btn btn-transparent" data-toggle="modal"
+                data-target="#mapModal"></button>
         <button id="ship-drones-button" class="ship-button btn btn-transparent"></button>
-        <button class="ship-button btn btn-transparent"></button>
-        <button id="settings-button" class="ship-button btn btn-transparent" data-toggle="modal" data-target="#settingsModal"></button>
-        <div class="settings-menu-modal">
+        <button id="ship-testing-button" class="ship-button btn btn-transparent"></button>
+        <button id="settings-button" class="ship-button btn btn-transparent" data-toggle="modal"
+                data-target="#settingsModal"></button>
+
+        <div class="map-modal idea-modal">
+            <div class="map-modal idea-modal">
+                <!-- Modal -->
+                <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content w-50 mx-auto">
+                            <div class="modal-header d-flex justify-content-center">
+                                <h5 class="modal-title text-light text-center">Map</h5>
+                            </div>
+                            <hr class="hr-2 w-65 mx-auto"/>
+                            <div class="modal-body d-flex flex-column">
+                                <div class="map-hud w-25">
+                                    <button id="map-ftl-button" class="btn btn-idea" data-toggle="modal"
+                                            data-target="#ftlModal">FTL
+                                    </button>
+                                </div>
+                                <hr class="hr-2 w-100 bg-idea"/>
+                                <div class="full-map border-3-idea">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ftl-modal idea-modal">
             <!-- Modal -->
-            <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <div class="modal fade" id="ftlModal" tabindex="-1" role="dialog" aria-labelledby="ftlModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content w-50 mx-auto">
+                        <div class="modal-header d-flex justify-content-center">
+                            <h5 class="modal-title text-light text-center">Faster-Than-Light Speed Travel</h5>
+                        </div>
+                        <hr class="hr-2 w-65 mx-auto"/>
+                        <div class="modal-body d-flex flex-column">
+                            <div class="form-group mt-1">
+                                <input class="form-control" type="number" name="x" id="ftl-x" placeholder="X: " />
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="number" name="Y" id="ftl-y" placeholder="Y: " />
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="number" name="Z" id="ftl-z" placeholder="Z: " />
+                            </div>
+                            <button id="ftl-initiate-button" class="btn btn-idea">Travel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-menu-modal idea-modal">
+            <!-- Modal -->
+            <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content w-50 mx-auto">
                         <div class="modal-header d-flex justify-content-center">
@@ -23,6 +81,4 @@
             </div>
         </div>
     </div>
-
-
 </div>

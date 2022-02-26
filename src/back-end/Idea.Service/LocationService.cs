@@ -9,12 +9,13 @@ namespace Idea.Service
     public class LocationService : ILocationService
     {
         private readonly IdeaDbContext ideaDbContext;
+        private readonly IRandomService randomService;
         private readonly ILocationEngineCore locationEngine;
 
-        public LocationService(IdeaDbContext ideaDbContext)
+        public LocationService(IdeaDbContext ideaDbContext, IRandomService randomService)
         {
             this.ideaDbContext = ideaDbContext;
-            this.locationEngine = new LocationEngineCore(ideaDbContext);
+            this.locationEngine = new LocationEngineCore(ideaDbContext, randomService);
         }
 
         public async Task<LocationServiceModel> CreeateLocation(LocationServiceModel locationServiceModel)
