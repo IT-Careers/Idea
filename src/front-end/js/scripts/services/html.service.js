@@ -22,10 +22,18 @@ window.application.services.htmlService = (() => {
             .then(res => res.text());
     }
 
+    const closeModals = () => {
+        for (const modalElement of document.getElementsByClassName('modal')) {
+            const clickEvent = new Event('click');
+            modalElement.dispatchEvent(clickEvent);
+        }
+    }
+
     return {
         clearContent,
         loadContent,
         loadPage,
-        loadFragment
+        loadFragment,
+        closeModals
     };
 })();

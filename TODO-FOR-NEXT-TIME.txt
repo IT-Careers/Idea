@@ -1,0 +1,2 @@
+LAST TIME: We started implementing Ship Status Modal.
+NEXT TIME: We need to replace template with real modal and replace data with real data and probably make data functional.
