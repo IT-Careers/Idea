@@ -16,7 +16,7 @@ window.application.services.shipService = (() => {
             });
     }
 
-    const getShipCoordinates = () => baseService.get('https://localhost:7186/Ships/Coordinates/My');
+    const getShipCoordinates = () => baseService.get('https://localhost:7186/Ships/Me');
 
     return {
         travel,

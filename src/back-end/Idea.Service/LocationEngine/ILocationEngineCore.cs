@@ -7,6 +7,6 @@ namespace Idea.Service.LocationEngine
     {
         List<Location> GetLocationsForCoordinate(Coordinate coordinate);
 
-
+        Location GenerateLocation(Coordinate coordinate);
     }
 }

@@ -24,7 +24,11 @@ window.application.services.keyService = (() => {
     }
 
     const attachEvents = () => {
-        attachKeyEvent('Escape', () => document.getElementById('settings-button').click());
+        attachKeyEvent('Escape', () => {
+            if(!document.getElementsByClassName('modal-backdrop')[0]) {
+                document.getElementById('settings-button').click();
+            }
+        });
     }
 
     return {

@@ -1,5 +1,6 @@
 ﻿using Idea.Service;
 using Idea.Service.Models;
+using Idea.Web.Mapping;
 using Idea.Web.Models.Ships;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +18,15 @@ namespace Idea.Web.Controllers
             this.shipService = shipService;
         }
 
-        [HttpGet("Coordinates/My")]
+        [HttpGet("Me")]
         [Authorize]
-        public async Task<IActionResult> MyCoordinates()
+        public async Task<IActionResult> Me()
         {
             var userId = ((IdeaUserServiceModel)this.HttpContext.Items["User"]).Id;
 
-            var ship = await this.shipService.GetShipByUserIdAsync(userId);
+            var ship = (await this.shipService.GetShipByUserIdAsync(userId)).ToSpaceshipMeViewModel();
 
-            return Ok(new { X = ship.X, Y = ship.Y, Z = ship.Z });
+            return Ok(ship);
         }
 
         [HttpPost("Travel")]

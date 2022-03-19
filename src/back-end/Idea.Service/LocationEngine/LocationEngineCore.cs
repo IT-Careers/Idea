@@ -2,6 +2,7 @@
 using Idea.Data.Models.Locations;
 using Idea.Data.Models.Shared;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace Idea.Service.LocationEngine
 {
@@ -24,21 +25,19 @@ namespace Idea.Service.LocationEngine
 
         private void InitializeLocationTypes()
         {
-            Dictionary<int, long> locationTypesWithHalfPointsResult = new Dictionary<int, long>();
+            this.locationTypesWithHalfPoints = new Dictionary<int, long>();
 
-            locationTypesWithHalfPointsResult[0] = LocationEngineConstants.StarSystemHalfPoint;
-            locationTypesWithHalfPointsResult[1] = LocationEngineConstants.EmptySpaceHalfPoint;
-            locationTypesWithHalfPointsResult[2] = LocationEngineConstants.NebulaHalfPoint;
-            locationTypesWithHalfPointsResult[3] = LocationEngineConstants.AsteroidFieldHalfPoint;
+            locationTypesWithHalfPoints[0] = LocationEngineConstants.StarSystemHalfPoint;
+            locationTypesWithHalfPoints[1] = LocationEngineConstants.EmptySpaceHalfPoint;
+            locationTypesWithHalfPoints[2] = LocationEngineConstants.NebulaHalfPoint;
+            locationTypesWithHalfPoints[3] = LocationEngineConstants.AsteroidFieldHalfPoint;
 
-            this.locationTypesWithHalfPoints = locationTypesWithHalfPointsResult;
+            this.locationTypesWithNames = new Dictionary<int, string>();
 
-            Dictionary<int, string> locationTypesWithNamesResult = new Dictionary<int, string>();
-
-            locationTypesWithNamesResult[0] = "StarSystem";
-            locationTypesWithNamesResult[1] = "EmptySpace";
-            locationTypesWithNamesResult[2] = "Nebula";
-            locationTypesWithNamesResult[3] = "AsteroidBelt";
+            locationTypesWithNames[0] = "StarSystem";
+            locationTypesWithNames[1] = "EmptySpace";
+            locationTypesWithNames[2] = "Nebula";
+            locationTypesWithNames[3] = "AsteroidBelt";
         }
 
         private bool IsInCubicalStructure(Position position, Coordinate point)
@@ -77,7 +76,13 @@ namespace Idea.Service.LocationEngine
 
         private long GetActualCoordinateAxisValue(long axisValue, long deltaDiff)
         {
-            return (Math.Abs(axisValue) - Math.Abs(deltaDiff)) * (axisValue / Math.Abs(axisValue));
+            // Example: 
+            // axisValue = -25 000 000
+            // deltaDiff = (0 : -15 000 000 000) (for example: 7 500 000 000)
+            // -7 475 000 000
+            // then calculate axis / math.abs(axis) => always 1 / -1 ... Unless its 0
+
+            return Math.Abs((Math.Abs(axisValue) - Math.Abs(deltaDiff))) * (axisValue == 0 ? 1 : axisValue / Math.Abs(axisValue));
         }
         
         private LocationType GetLocationTypeEntity(int locationType) 
@@ -86,15 +91,47 @@ namespace Idea.Service.LocationEngine
                 .SingleOrDefault(locationTypeFromDb => locationTypeFromDb.Name == this.locationTypesWithNames[locationType]);
         }
 
+        private string GenerateLocationName()
+        {
+            // TODO: Make it depend on coordinates of location
+            long letterLength = this.randomService.RandomNumber(5, 10);
+            long digitLength = this.randomService.RandomNumber(1, 2);
+
+            StringBuilder randomLocationName = new StringBuilder();
+
+            for (int i = 0; i < letterLength; i++)
+            {
+                randomLocationName.Append((char)this.randomService.RandomNumber(65, 90));
+            }
+
+            randomLocationName.Append("-");
+
+            for (int i = 0; i < digitLength; i++)
+            {
+                randomLocationName.Append(this.randomService.RandomNumber(0, 9));
+            }
+
+            return randomLocationName.ToString();
+        }
+
         public List<Location> GetLocationsForCoordinate(Coordinate coordinate)
         {
             return this.ideaDbContext.Locations
                 .Include(location => location.LocationType)
-                .Include(location => location.Position)
+                .Include(location => location.Position).ThenInclude(position => position.FrontLowerLeft)
+                .Include(location => location.Position).ThenInclude(position => position.FrontLowerRight)
+                .Include(location => location.Position).ThenInclude(position => position.FrontUpperLeft)
+                .Include(location => location.Position).ThenInclude(position => position.FrontUpperRight)
+                .Include(location => location.Position).ThenInclude(position => position.BackLowerLeft)
+                .Include(location => location.Position).ThenInclude(position => position.BackLowerRight)
+                .Include(location => location.Position).ThenInclude(position => position.BackUpperLeft)
+                .Include(location => location.Position).ThenInclude(position => position.BackUpperRight)
+                .ToList()
                 .Where(location => this.IsInCubicalStructure(location.Position, coordinate))
                 .ToList();
         }
 
+        // TODO: Refactor this big method
         public Location GenerateLocation(Coordinate coordinate)
         {
             // Generate Location Type
@@ -174,8 +211,11 @@ namespace Idea.Service.LocationEngine
 
             LocationType locationType = this.GetLocationTypeEntity(locationTypeIndex);
 
+            string locationName = this.GenerateLocationName();
+
             Location location = new Location
             {
+                Name = locationName,
                 LocationType = locationType,
                 Position = locationPosition
             };

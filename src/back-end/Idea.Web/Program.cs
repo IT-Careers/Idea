@@ -30,15 +30,18 @@ namespace Idea.Web
         {
             using(var serviceScope = serviceCollection.CreateScope())
             {
-                using(var ideaDbContext = serviceScope.ServiceProvider.GetService<IdeaDbContext>())
+                using (var ideaDbContext = serviceScope.ServiceProvider.GetService<IdeaDbContext>())
                 {
-                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "StarSystem" });
-                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "EmptySpace" });
-                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "Nebula" });
-                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "AsteroidField" });
-                    ideaDbContext.LocationTypes.Add(new LocationType { Name = "CelestialObject" });
+                    if (!ideaDbContext.LocationTypes.Any())
+                    {
+                        ideaDbContext.LocationTypes.Add(new LocationType { Name = "StarSystem" });
+                        ideaDbContext.LocationTypes.Add(new LocationType { Name = "EmptySpace" });
+                        ideaDbContext.LocationTypes.Add(new LocationType { Name = "Nebula" });
+                        ideaDbContext.LocationTypes.Add(new LocationType { Name = "AsteroidField" });
+                        ideaDbContext.LocationTypes.Add(new LocationType { Name = "CelestialObject" });
 
-                    ideaDbContext.SaveChanges();
+                        ideaDbContext.SaveChanges();
+                    }
                 }
             }
         }
@@ -51,6 +54,7 @@ namespace Idea.Web
             
             // Add Custom Services
             builder.Services.AddSingleton<IRandomService>(new RandomService(GetCurrentSeed()));
+            builder.Services.AddTransient<ILocationService, LocationService>();
             builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<IShipService, ShipService>();
 

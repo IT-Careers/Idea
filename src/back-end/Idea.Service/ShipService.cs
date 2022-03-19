@@ -1,4 +1,5 @@
 ﻿using Idea.Data;
+using Idea.Data.Models.Shared;
 using Idea.Data.Models.Ships;
 using Idea.Service.Mapping;
 using Idea.Service.Models;
@@ -10,9 +11,12 @@ namespace Idea.Service
     {
         private readonly IdeaDbContext ideaDbContext;
 
-        public ShipService(IdeaDbContext ideaDbContext)
+        private readonly ILocationService locationService;
+
+        public ShipService(IdeaDbContext ideaDbContext, ILocationService locationService)
         {
             this.ideaDbContext = ideaDbContext;
+            this.locationService = locationService;
         }
 
         public async Task<SpaceshipServiceModel> CreateShipAsync(string userId)
@@ -59,6 +63,13 @@ namespace Idea.Service
 
             this.ideaDbContext.Update(ship);
             await this.ideaDbContext.SaveChangesAsync();
+
+            await this.locationService.GenerateLocationsIfNecessary(new Coordinate
+            {
+                X = ship.X,
+                Y = ship.Y,
+                Z = ship.Z
+            });
 
             return ship.ToServiceModel();
         }

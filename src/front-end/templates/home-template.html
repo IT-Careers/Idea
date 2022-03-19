@@ -1,6 +1,7 @@
 <div class="home-page-handler">
     <div class="core-hud d-flex justify-content-around">
-        <button id="ship-status-button" class="ship-button btn btn-transparent"></button>
+        <button id="ship-status-button" class="ship-button btn btn-transparent" data-toggle="modal"
+                data-target="#shipStatusModal"></button>
         <button id="ship-stations-button" class="ship-button btn btn-transparent"></button>
         <button id="ship-map-button" class="ship-button btn btn-transparent" data-toggle="modal"
                 data-target="#mapModal"></button>
@@ -8,6 +9,50 @@
         <button id="ship-testing-button" class="ship-button btn btn-transparent"></button>
         <button id="settings-button" class="ship-button btn btn-transparent" data-toggle="modal"
                 data-target="#settingsModal"></button>
+
+        <div class="ship-status-modal idea-modal">
+            <!-- Modal -->
+            <div class="modal fade" id="shipStatusModal" tabindex="-1" role="dialog" aria-labelledby="shipStatusModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content w-50 mx-auto">
+                        <div class="modal-header d-flex justify-content-center">
+                            <h5 class="modal-title text-light text-center">Ship Status</h5>
+                        </div>
+                        <hr class="hr-2 w-65 mx-auto"/>
+                        <div class="modal-body d-flex flex-column">
+                            <div class="ship-status-container d-flex justify-content-between">
+                                <div class="ship-status-image-container">
+                                    <div class="ship-status-image"></div>
+                                </div>
+                                <div class="ship-status-info">
+                                    <div id="ship-status-info-name" class="ship-status-name text-light"></div>
+                                    <div class="ship-status-label text-light">Coordinates:</div>
+                                    <div class="ship-status-section text-light">
+                                        <div id="ship-status-info-coordinate-x" class="ship-status-entry text-light"></div>
+                                        <div id="ship-status-info-coordinate-y" class="ship-status-entry text-light"></div>
+                                        <div id="ship-status-info-coordinate-z" class="ship-status-entry text-light"></div>
+                                    </div>
+                                    <div class="ship-status-label text-light">Diagnostics:</div>
+                                    <div class="ship-status-section text-light">
+                                        <div class="d-flex justify-content-between">
+                                            <div id="ship-status-info-hull" class="ship-status-entry text-light col-md-4"></div>
+                                            <div id="ship-status-info-fuel" class="ship-status-entry text-light col-md-4"></div>
+                                            <div class="ship-status-entry text-light col-md-4"></div>
+                                        </div>
+                                        <div id="ship-status-info-capacity" class="ship-status-entry text-light"></div>
+                                    </div>
+                                    <div class="ship-status-label text-light">Status:</div>
+                                    <div class="ship-status-section text-light">
+                                        <div id="ship-status-info-ftl-cooldown" class="ship-status-entry text-light"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="map-modal idea-modal">
             <div class="map-modal idea-modal">

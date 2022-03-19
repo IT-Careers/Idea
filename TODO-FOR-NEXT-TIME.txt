@@ -1,2 +1,3 @@
-LAST TIME: We started implementing Ship Status Modal.
-NEXT TIME: We need to replace template with real modal and replace data with real data and probably make data functional.
+LAST TIME: We Finished Ship Status Modal. We started implementing Procedural generation. It works, but location check is faulty.
+
+NEXT UP: Fix location check and finalize Procedural generation of locations.
