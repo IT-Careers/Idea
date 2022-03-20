@@ -6,7 +6,7 @@ window.application.services.locationService = (() => {
 
     const getLocationsHere = () => {
         return baseService.get('https://localhost:7186/Locations/Here')
-            .then(res => res.json());
+            .catch(err => console.log('Failed to fetch locations...' + err));
     }
 
     return {

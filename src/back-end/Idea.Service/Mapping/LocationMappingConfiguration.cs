@@ -29,6 +29,7 @@ namespace Idea.Service.Mapping
             {
                 LocationTypeId = locationServiceModel.LocationTypeId,
                 Position = locationServiceModel.Position.ToEntity(),
+                Name = locationServiceModel.Name
             };
         }
 
@@ -38,7 +39,8 @@ namespace Idea.Service.Mapping
             {
                 Id = location.Id,
                 LocationType = location.LocationType.ToServiceModel(),
-                Position = location.Position.ToServiceModel()
+                Position = location.Position.ToServiceModel(),
+                Name = location.Name
             };
         }
     }

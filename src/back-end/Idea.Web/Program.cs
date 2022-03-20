@@ -1,5 +1,6 @@
 using Idea.Data;
 using Idea.Data.Models.Locations;
+using Idea.Data.Models.Shared;
 using Idea.Service;
 using Idea.Service.Models;
 using Idea.Web.Models.Core;
@@ -24,6 +25,26 @@ namespace Idea.Web
             Console.WriteLine();
 
             return seed;
+        }
+
+        private static void ClearDatabase(IServiceProvider serviceCollection) 
+        {
+            using (var serviceScope = serviceCollection.CreateScope())
+            {
+                using (var ideaDbContext = serviceScope.ServiceProvider.GetService<IdeaDbContext>())
+                {
+                    List<Location> allLocations = ideaDbContext.Locations.ToList();
+                    ideaDbContext.RemoveRange(allLocations);
+
+                    List<Position> allPositions = ideaDbContext.Positions.ToList();
+                    ideaDbContext.RemoveRange(allPositions);
+
+                    List<Coordinate> allCoordinates = ideaDbContext.Coordinates.ToList();
+                    ideaDbContext.RemoveRange(allCoordinates);
+
+                    ideaDbContext.SaveChanges();
+                }
+            }
         }
 
         private static void SeedDatabase(IServiceProvider serviceCollection)
@@ -126,6 +147,8 @@ namespace Idea.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            ClearDatabase(app.Services);
 
             SeedDatabase(app.Services);
 

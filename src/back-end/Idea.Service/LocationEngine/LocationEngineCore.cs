@@ -73,17 +73,6 @@ namespace Idea.Service.LocationEngine
 
             return isInCube;
         }
-
-        private long GetActualCoordinateAxisValue(long axisValue, long deltaDiff)
-        {
-            // Example: 
-            // axisValue = -25 000 000
-            // deltaDiff = (0 : -15 000 000 000) (for example: 7 500 000 000)
-            // -7 475 000 000
-            // then calculate axis / math.abs(axis) => always 1 / -1 ... Unless its 0
-
-            return Math.Abs((Math.Abs(axisValue) - Math.Abs(deltaDiff))) * (axisValue == 0 ? 1 : axisValue / Math.Abs(axisValue));
-        }
         
         private LocationType GetLocationTypeEntity(int locationType) 
         {
@@ -131,21 +120,13 @@ namespace Idea.Service.LocationEngine
                 .ToList();
         }
 
-        // TODO: Refactor this big method
-        public Location GenerateLocation(Coordinate coordinate)
+        private Position GenerateFrontLowerLeftLeading(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
         {
-            // Generate Location Type
-            int locationTypeIndex = (int) this.randomService.RandomNumber(0, 4);
-            long locationTypeHalfPoint = this.locationTypesWithHalfPoints[locationTypeIndex];
-
-            // Generate Location Coordinates
-            long deltaDiff = this.randomService.RandomNumber(0, locationTypeHalfPoint);
-
             Coordinate frontLowerLeftPoint = new Coordinate
             {
-                X = GetActualCoordinateAxisValue(coordinate.X, deltaDiff),
-                Y = GetActualCoordinateAxisValue(coordinate.Y, deltaDiff),
-                Z = GetActualCoordinateAxisValue(coordinate.Z, deltaDiff)
+                X = coordinate.X - deltaDiff,
+                Y = coordinate.Y - deltaDiff,
+                Z = coordinate.Z - deltaDiff
             };
 
             Coordinate frontLowerRightPoint = new Coordinate
@@ -208,6 +189,119 @@ namespace Idea.Service.LocationEngine
                 BackUpperLeft = backUpperLeftPoint,
                 BackUpperRight = backUpperRightPoint
             };
+
+            return locationPosition;
+        }
+
+        private Position GenerateBackLowerLeftLeading(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
+        {
+            Coordinate backLowerLeftPoint = new Coordinate
+            {
+                X = coordinate.X - deltaDiff,
+                Y = coordinate.Y - deltaDiff,
+                Z = coordinate.Z + deltaDiff
+            };
+
+            Coordinate frontLowerLeftPoint = new Coordinate
+            {
+                X = backLowerLeftPoint.X,
+                Y = backLowerLeftPoint.Y,
+                Z = backLowerLeftPoint.Z - (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate frontLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate backLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Position locationPosition = new Position
+            {
+                FrontLowerLeft = frontLowerLeftPoint,
+                FrontLowerRight = frontLowerRightPoint,
+                FrontUpperLeft = frontUpperLeftPoint,
+                FrontUpperRight = frontUpperRightPoint,
+                BackLowerLeft = backLowerLeftPoint,
+                BackLowerRight = backLowerRightPoint,
+                BackUpperLeft = backUpperLeftPoint,
+                BackUpperRight = backUpperRightPoint
+            };
+
+            return locationPosition;
+        }
+
+        //TODO: 
+        private Position GenerateLocationPositionRelativeToOctant(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
+        {
+            bool isFrontLowerLeftLeading = coordinate.X >= 0 && coordinate.Y >= 0 && coordinate.Z >= 0;
+            bool isBackLowerLeftLeading = coordinate.X >= 0 && coordinate.Y >= 0 && coordinate.Z < 0;
+            bool isFrontLowerRightLeading = coordinate.X < 0 && coordinate.Y >= 0 && coordinate.Z >= 0;
+            bool isBackLowerRightLeading = coordinate.X < 0 && coordinate.Y >= 0 && coordinate.Z < 0;
+           
+            bool isFrontUpperLeftLeading = coordinate.X >= 0 && coordinate.Y < 0 && coordinate.Z >= 0;
+            bool isBackUpperLeftLeading = coordinate.X >= 0 && coordinate.Y < 0 && coordinate.Z < 0;
+            bool isFrontUpperRightLeading = coordinate.X < 0 && coordinate.Y < 0 && coordinate.Z >= 0;
+            bool isBackUpperRightLeading = coordinate.X < 0 && coordinate.Y < 0 && coordinate.Z < 0;
+
+            if(isFrontLowerLeftLeading)
+            {
+                return this.GenerateFrontLowerLeftLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+            } 
+            else if (isBackLowerLeftLeading)
+            {
+                return this.GenerateBackLowerLeftLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+            }
+
+            return null;
+        }
+
+        // TODO: Refactor this big method
+        public Location GenerateLocation(Coordinate coordinate)
+        {
+            // Generate Location Type
+            int locationTypeIndex = 0;
+            long locationTypeHalfPoint = this.locationTypesWithHalfPoints[locationTypeIndex];
+
+            // Generate Location Coordinates
+            long deltaDiff = this.randomService.RandomNumber(0, locationTypeHalfPoint);
+
+            Position locationPosition = this.GenerateLocationPositionRelativeToOctant(coordinate, deltaDiff, locationTypeHalfPoint);
 
             LocationType locationType = this.GetLocationTypeEntity(locationTypeIndex);
 

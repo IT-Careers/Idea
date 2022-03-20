@@ -1,3 +1,8 @@
-LAST TIME: We Finished Ship Status Modal. We started implementing Procedural generation. It works, but location check is faulty.
+LAST TIME: Generation of locations reworked. New generation uses 8 octants to always generate locations away from zero zero zero.
 
-NEXT UP: Fix location check and finalize Procedural generation of locations.
+NEXT TIME: We implemented only 2 octancts, so we have to implement other 6.
+
+TODO (maybe next time): Travelling to specific locations.
+TODO (maybe next time): Probably host this somewhere (heroku?).
+TODO (maybe next time): Also we need to generate Locations for Celestial bodies inside main location.
+

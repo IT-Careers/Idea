@@ -2,6 +2,8 @@
 {
     public class LocationServiceModel : BaseServiceModel
     {
+        public string Name { get; set; }
+
         public string LocationTypeId { get; set; }
 
         public LocationTypeServiceModel LocationType { get; set; }

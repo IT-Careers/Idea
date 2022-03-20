@@ -8,108 +8,11 @@ window.application.controllers.homeController = (() => {
     const setShipInfo = (shipInfo) => localStorage.setItem("shipInfo", JSON.stringify(shipInfo));
     const getShipInfo = () => JSON.parse(localStorage.getItem("shipInfo"));
 
-    const getLocations = () => {
+    const getLocations = (callback) => {
         locationService.getLocationsHere()
             .then(result => {
-                console.log(result);
+                callback(result);
             });
-
-        const locations = [
-            {
-                position: {
-                    frontLowerLeft: {
-                        x: 5182941923,
-                        y: 1294381234,
-                        z: 1291723394
-                    },
-                    frontLowerRight: {
-                        x: 1005182941923,
-                        y: 1294381234,
-                        z: 1291723394
-                    },
-                    frontUpperLeft: {
-                        x: 5182941923,
-                        y: 1001294381234,
-                        z: 1291723394
-                    },
-                    frontUpperRight: {
-                        x: 1005182941923,
-                        y: 1001294381234,
-                        z: 1291723394
-                    },
-                    backLowerLeft: {
-                        x: 5182941923,
-                        y: 1294381234,
-                        z: 1001291723394
-                    },
-                    backLowerRight: {
-                        x: 1005182941923,
-                        y: 1294381234,
-                        z: 1001291723394
-                    },
-                    backUpperLeft: {
-                        x: 5182941923,
-                        y: 1001294381234,
-                        z: 1001291723394
-                    },
-                    backUpperRight: {
-                        x: 1005182941923,
-                        y: 1001294381234,
-                        z: 1001291723394
-                    }
-                },
-                name: 'Aurelia-56x',
-                type: 'StarSystem'
-            },
-            {
-                position: {
-                    frontLowerLeft: {
-                        x: 5182941923000,
-                        y: 1294381234000,
-                        z: 1291723394
-                    },
-                    frontLowerRight: {
-                        x: 1005182941923000,
-                        y: 1294381234000,
-                        z: 1291723394
-                    },
-                    frontUpperLeft: {
-                        x: 5182941923000,
-                        y: 1001294381234000,
-                        z: 1291723394
-                    },
-                    frontUpperRight: {
-                        x: 1005182941923000,
-                        y: 1001294381234000,
-                        z: 1291723394
-                    },
-                    backLowerLeft: {
-                        x: 5182941923000,
-                        y: 1294381234000,
-                        z: 1001291723394
-                    },
-                    backLowerRight: {
-                        x: 1005182941923000,
-                        y: 1294381234000,
-                        z: 1001291723394
-                    },
-                    backUpperLeft: {
-                        x: 5182941923000,
-                        y: 1001294381234000,
-                        z: 1001291723394
-                    },
-                    backUpperRight: {
-                        x: 1005182941923000,
-                        y: 1001294381234000,
-                        z: 1001291723394
-                    }
-                },
-                name: 'Caprica-6',
-                type: 'StarSystem'
-            }
-        ];
-
-        return locations;
     }
     const refilterLocations = () => {
         const xLIMIT = 2_500_000_000_000_000;
@@ -127,51 +30,63 @@ window.application.controllers.homeController = (() => {
             });
         };
 
-        const locations = getLocations();
-        const filterVicinity = (location, vicinity, limit) => {
-            const frontLowerLeft = Math.abs(location.position.frontLowerLeft[vicinity] - getShipInfo()[vicinity]) < limit;
-            const frontLowerRight = Math.abs(location.position.frontLowerRight[vicinity] - getShipInfo()[vicinity]) < limit;
-            const frontUpperLeft = Math.abs(location.position.frontUpperLeft[vicinity] - getShipInfo()[vicinity]) < limit;
-            const frontUpperRight = Math.abs(location.position.frontUpperRight[vicinity] - getShipInfo()[vicinity]) < limit;
-            const backLowerLeft = Math.abs(location.position.backLowerLeft[vicinity] - getShipInfo()[vicinity]) < limit;
-            const backLowerRight = Math.abs(location.position.backLowerRight[vicinity] - getShipInfo()[vicinity]) < limit;
-            const backUpperLeft = Math.abs(location.position.backUpperLeft[vicinity] - getShipInfo()[vicinity]) < limit;
-            const backUpperRight = Math.abs(location.position.backUpperRight[vicinity] - getShipInfo()[vicinity]) < limit;
+        getLocations((locations) => {
+            console.log(locations);
+            const filterVicinity = (location, vicinity, limit) => {
+                const frontLowerLeft = Math.abs(location.position.frontLowerLeft[vicinity] - getShipInfo()[vicinity]) < limit;
+                const frontLowerRight = Math.abs(location.position.frontLowerRight[vicinity] - getShipInfo()[vicinity]) < limit;
+                const frontUpperLeft = Math.abs(location.position.frontUpperLeft[vicinity] - getShipInfo()[vicinity]) < limit;
+                const frontUpperRight = Math.abs(location.position.frontUpperRight[vicinity] - getShipInfo()[vicinity]) < limit;
+                const backLowerLeft = Math.abs(location.position.backLowerLeft[vicinity] - getShipInfo()[vicinity]) < limit;
+                const backLowerRight = Math.abs(location.position.backLowerRight[vicinity] - getShipInfo()[vicinity]) < limit;
+                const backUpperLeft = Math.abs(location.position.backUpperLeft[vicinity] - getShipInfo()[vicinity]) < limit;
+                const backUpperRight = Math.abs(location.position.backUpperRight[vicinity] - getShipInfo()[vicinity]) < limit;
 
-            return frontLowerLeft || frontLowerRight || frontUpperLeft || frontUpperRight || backLowerLeft || backLowerRight || backUpperLeft || backUpperRight;
-        }
-        const filteredLocations = locations.filter(location => {
-            const isInzVicinity = filterVicinity(location, "z", zLIMIT);
-            const isInxVicinity = filterVicinity(location, "x", xLIMIT);
-            const isInyVicinity = filterVicinity(location, "y", yLIMIT);
-            return isInzVicinity && isInxVicinity && isInyVicinity;
+                console.log(frontLowerLeft)
+                console.log(frontLowerRight)
+                console.log(frontUpperLeft)
+                console.log(frontUpperRight)
+                console.log(backLowerLeft)
+                console.log(backLowerRight)
+                console.log(backUpperLeft)
+                console.log(backUpperRight)
+
+                return frontLowerLeft || frontLowerRight || frontUpperLeft || frontUpperRight || backLowerLeft || backLowerRight || backUpperLeft || backUpperRight;
+            }
+            const filteredLocations = locations.filter(location => {
+                const isInzVicinity = filterVicinity(location, "z", zLIMIT);
+                const isInxVicinity = filterVicinity(location, "x", xLIMIT);
+                const isInyVicinity = filterVicinity(location, "y", yLIMIT);
+                return isInzVicinity && isInxVicinity && isInyVicinity;
+            });
+            console.log(filteredLocations);
+            document.getElementsByClassName('full-map')[0].innerHTML = "";
+
+            filteredLocations.forEach(location => {
+                const locationMidx = (location.position.frontLowerLeft.x + location.position.frontLowerRight.x) / 2;
+                const locationMidy = (location.position.frontLowerLeft.y + location.position.frontUpperLeft.y) / 2;
+
+                const locationCoordinatexOffset = ((locationMidx / xLIMIT) * 100);
+                const locationCoordinateyOffset = ((locationMidy / yLIMIT) * 100);
+
+                const myCoordinatexOffset = (getShipInfo().x / xLIMIT) * 50;
+                const myCoordinateyOffset = (getShipInfo().y / yLIMIT) * 50;
+
+                window.application.services.htmlService.loadFragment('location')
+                    .then(html => {
+                        const node = document.createElement('div');
+                        node.innerHTML = html;
+                        const locationNode = node.childNodes[0];
+                        locationNode.style.position = 'absolute';
+                        locationNode.style.left = (locationCoordinatexOffset + myCoordinatexOffset) + '%';
+                        locationNode.style.top =  (locationCoordinateyOffset + myCoordinateyOffset) + '%';
+                        locationNode.childNodes[3].innerHTML = location.name;
+                        document.getElementsByClassName('full-map')[0].appendChild(locationNode);
+                        attachNodeEvents(locationNode.childNodes[1].childNodes[1]);
+                    });
+            });
         });
 
-        document.getElementsByClassName('full-map')[0].innerHTML = "";
-
-        filteredLocations.forEach(location => {
-            const locationMidx = (location.position.frontLowerLeft.x + location.position.frontLowerRight.x) / 2;
-            const locationMidy = (location.position.frontLowerLeft.y + location.position.frontUpperLeft.y) / 2;
-
-            const locationCoordinatexOffset = ((locationMidx / xLIMIT) * 100);
-            const locationCoordinateyOffset = ((locationMidy / yLIMIT) * 100);
-
-            const myCoordinatexOffset = (getShipInfo().x / xLIMIT) * 50;
-            const myCoordinateyOffset = (getShipInfo().y / yLIMIT) * 50;
-
-            window.application.services.htmlService.loadFragment('location')
-                .then(html => {
-                    const node = document.createElement('div');
-                    node.innerHTML = html;
-                    const locationNode = node.childNodes[0];
-                    locationNode.style.position = 'absolute';
-                    locationNode.style.left = (locationCoordinatexOffset + myCoordinatexOffset) + '%';
-                    locationNode.style.top =  (locationCoordinateyOffset + myCoordinateyOffset) + '%';
-                    locationNode.childNodes[3].innerHTML = location.name;
-                    document.getElementsByClassName('full-map')[0].appendChild(locationNode);
-                    attachNodeEvents(locationNode.childNodes[1].childNodes[1]);
-                });
-        });
     }
 
     const attachEvents = () => {
