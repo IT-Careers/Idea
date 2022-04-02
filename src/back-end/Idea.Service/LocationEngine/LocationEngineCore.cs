@@ -266,42 +266,509 @@ namespace Idea.Service.LocationEngine
             return locationPosition;
         }
 
-        //TODO: 
-        private Position GenerateLocationPositionRelativeToOctant(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
+        private Position GenerateFrontLowerRightLeading(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
+        {
+            Coordinate frontLowerRightPoint = new Coordinate
+            {
+                X = coordinate.X + deltaDiff,
+                Y = coordinate.Y - deltaDiff,
+                Z = coordinate.Z - deltaDiff
+            };
+
+            Coordinate frontLowerLeftPoint = new Coordinate
+            {
+                X = frontLowerRightPoint.X - (2 * locationTypeHalfPoint),
+                Y = frontLowerRightPoint.Y,
+                Z = frontLowerRightPoint.Z
+            };
+
+            Coordinate frontUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate backLowerLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Position locationPosition = new Position
+            {
+                FrontLowerLeft = frontLowerLeftPoint,
+                FrontLowerRight = frontLowerRightPoint,
+                FrontUpperLeft = frontUpperLeftPoint,
+                FrontUpperRight = frontUpperRightPoint,
+                BackLowerLeft = backLowerLeftPoint,
+                BackLowerRight = backLowerRightPoint,
+                BackUpperLeft = backUpperLeftPoint,
+                BackUpperRight = backUpperRightPoint
+            };
+
+            return locationPosition;
+        }
+
+        private Position GenerateBackLowerRightLeading(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
+        {
+            Coordinate backLowerRightPoint = new Coordinate
+            {
+                X = coordinate.X + deltaDiff,
+                Y = coordinate.Y - deltaDiff,
+                Z = coordinate.Z + deltaDiff
+            };
+
+            Coordinate frontLowerLeftPoint = new Coordinate
+            {
+                X = backLowerRightPoint.X - (2 * locationTypeHalfPoint),
+                Y = backLowerRightPoint.Y,
+                Z = backLowerRightPoint.Z - (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate frontLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate backLowerLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Position locationPosition = new Position
+            {
+                FrontLowerLeft = frontLowerLeftPoint,
+                FrontLowerRight = frontLowerRightPoint,
+                FrontUpperLeft = frontUpperLeftPoint,
+                FrontUpperRight = frontUpperRightPoint,
+                BackLowerLeft = backLowerLeftPoint,
+                BackLowerRight = backLowerRightPoint,
+                BackUpperLeft = backUpperLeftPoint,
+                BackUpperRight = backUpperRightPoint
+            };
+
+            return locationPosition;
+        }
+
+        private Position GenerateFrontUpperLeftLeading(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
+        {
+            Coordinate frontUpperLeftPoint = new Coordinate
+            {
+                X = coordinate.X - deltaDiff,
+                Y = coordinate.Y + deltaDiff,
+                Z = coordinate.Z - deltaDiff
+            };
+
+            Coordinate frontLowerLeftPoint = new Coordinate
+            {
+                X = frontUpperLeftPoint.X,
+                Y = frontUpperLeftPoint.Y - (2 * locationTypeHalfPoint),
+                Z = frontUpperLeftPoint.Z
+            };
+
+            Coordinate frontLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate backLowerLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Position locationPosition = new Position
+            {
+                FrontLowerLeft = frontLowerLeftPoint,
+                FrontLowerRight = frontLowerRightPoint,
+                FrontUpperLeft = frontUpperLeftPoint,
+                FrontUpperRight = frontUpperRightPoint,
+                BackLowerLeft = backLowerLeftPoint,
+                BackLowerRight = backLowerRightPoint,
+                BackUpperLeft = backUpperLeftPoint,
+                BackUpperRight = backUpperRightPoint
+            };
+
+            return locationPosition;
+        }
+
+        private Position GenerateFrontUpperRightLeading(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
+        {
+            Coordinate frontUpperRightPoint = new Coordinate
+            {
+                X = coordinate.X + deltaDiff,
+                Y = coordinate.Y + deltaDiff,
+                Z = coordinate.Z - deltaDiff
+            };
+
+            Coordinate frontLowerLeftPoint = new Coordinate
+            {
+                X = frontUpperRightPoint.X - (2 * locationTypeHalfPoint),
+                Y = frontUpperRightPoint.Y - (2 * locationTypeHalfPoint),
+                Z = frontUpperRightPoint.Z
+            };
+
+            Coordinate frontLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate backLowerLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Position locationPosition = new Position
+            {
+                FrontLowerLeft = frontLowerLeftPoint,
+                FrontLowerRight = frontLowerRightPoint,
+                FrontUpperLeft = frontUpperLeftPoint,
+                FrontUpperRight = frontUpperRightPoint,
+                BackLowerLeft = backLowerLeftPoint,
+                BackLowerRight = backLowerRightPoint,
+                BackUpperLeft = backUpperLeftPoint,
+                BackUpperRight = backUpperRightPoint
+            };
+
+            return locationPosition;
+        }
+
+        private Position GenerateBackUpperLeftLeading(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
+        {
+            Coordinate backUpperLeftPoint = new Coordinate
+            {
+                X = coordinate.X - deltaDiff,
+                Y = coordinate.Y + deltaDiff,
+                Z = coordinate.Z + deltaDiff
+            };
+
+            Coordinate frontLowerLeftPoint = new Coordinate
+            {
+                X = backUpperLeftPoint.X,
+                Y = backUpperLeftPoint.Y - (2 * locationTypeHalfPoint),
+                Z = backUpperLeftPoint.Z - (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate frontLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate backLowerLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Position locationPosition = new Position
+            {
+                FrontLowerLeft = frontLowerLeftPoint,
+                FrontLowerRight = frontLowerRightPoint,
+                FrontUpperLeft = frontUpperLeftPoint,
+                FrontUpperRight = frontUpperRightPoint,
+                BackLowerLeft = backLowerLeftPoint,
+                BackLowerRight = backLowerRightPoint,
+                BackUpperLeft = backUpperLeftPoint,
+                BackUpperRight = backUpperRightPoint
+            };
+
+            return locationPosition;
+        }
+
+        private Position GenerateBackUpperRightLeading(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint)
+        {
+            Coordinate backUpperRightPoint = new Coordinate
+            {
+                X = coordinate.X + deltaDiff,
+                Y = coordinate.Y + deltaDiff,
+                Z = coordinate.Z + deltaDiff
+            };
+
+            Coordinate frontLowerLeftPoint = new Coordinate
+            {
+                X = backUpperRightPoint.X - (2 * locationTypeHalfPoint),
+                Y = backUpperRightPoint.Y - (2 * locationTypeHalfPoint),
+                Z = backUpperRightPoint.Z - (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate frontLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate frontUpperRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z
+            };
+
+            Coordinate backLowerLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backLowerRightPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X + (2 * locationTypeHalfPoint),
+                Y = frontLowerLeftPoint.Y,
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Coordinate backUpperLeftPoint = new Coordinate
+            {
+                X = frontLowerLeftPoint.X,
+                Y = frontLowerLeftPoint.Y + (2 * locationTypeHalfPoint),
+                Z = frontLowerLeftPoint.Z + (2 * locationTypeHalfPoint)
+            };
+
+            Position locationPosition = new Position
+            {
+                FrontLowerLeft = frontLowerLeftPoint,
+                FrontLowerRight = frontLowerRightPoint,
+                FrontUpperLeft = frontUpperLeftPoint,
+                FrontUpperRight = frontUpperRightPoint,
+                BackLowerLeft = backLowerLeftPoint,
+                BackLowerRight = backLowerRightPoint,
+                BackUpperLeft = backUpperLeftPoint,
+                BackUpperRight = backUpperRightPoint
+            };
+
+            return locationPosition;
+        }
+
+        private Position GenerateLocationPositionRelativeToOctant(Coordinate coordinate, long deltaDiff, long locationTypeHalfPoint, Location location)
         {
             bool isFrontLowerLeftLeading = coordinate.X >= 0 && coordinate.Y >= 0 && coordinate.Z >= 0;
             bool isBackLowerLeftLeading = coordinate.X >= 0 && coordinate.Y >= 0 && coordinate.Z < 0;
             bool isFrontLowerRightLeading = coordinate.X < 0 && coordinate.Y >= 0 && coordinate.Z >= 0;
             bool isBackLowerRightLeading = coordinate.X < 0 && coordinate.Y >= 0 && coordinate.Z < 0;
-           
+
             bool isFrontUpperLeftLeading = coordinate.X >= 0 && coordinate.Y < 0 && coordinate.Z >= 0;
             bool isBackUpperLeftLeading = coordinate.X >= 0 && coordinate.Y < 0 && coordinate.Z < 0;
             bool isFrontUpperRightLeading = coordinate.X < 0 && coordinate.Y < 0 && coordinate.Z >= 0;
             bool isBackUpperRightLeading = coordinate.X < 0 && coordinate.Y < 0 && coordinate.Z < 0;
 
-            if(isFrontLowerLeftLeading)
+            Position locationPosition = null;
+
+            if (isFrontLowerLeftLeading)
             {
-                return this.GenerateFrontLowerLeftLeading(coordinate, deltaDiff, locationTypeHalfPoint);
-            } 
+                locationPosition = this.GenerateFrontLowerLeftLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+                location.TravelCoordinate = locationPosition.FrontLowerLeft;
+            }
+            else if (isFrontLowerRightLeading)
+            {
+                locationPosition = this.GenerateFrontLowerRightLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+                location.TravelCoordinate = locationPosition.FrontLowerRight;
+            }
+            else if (isFrontUpperLeftLeading)
+            {
+                locationPosition = this.GenerateFrontUpperLeftLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+                location.TravelCoordinate = locationPosition.FrontUpperLeft;
+            }
+            else if (isFrontUpperRightLeading)
+            {
+                locationPosition = this.GenerateFrontUpperRightLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+                location.TravelCoordinate = locationPosition.FrontUpperRight;
+            }
             else if (isBackLowerLeftLeading)
             {
-                return this.GenerateBackLowerLeftLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+                locationPosition = this.GenerateBackLowerLeftLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+                location.TravelCoordinate = locationPosition.BackLowerLeft;
+            }
+            else if (isBackLowerRightLeading)
+            {
+                locationPosition = this.GenerateBackLowerRightLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+                location.TravelCoordinate = locationPosition.BackLowerRight;
+            }
+            else if (isBackUpperLeftLeading)
+            {
+                locationPosition = this.GenerateBackUpperLeftLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+                location.TravelCoordinate = locationPosition.BackUpperLeft;
+            }
+            else if(isBackUpperRightLeading)
+            {
+                locationPosition = this.GenerateBackUpperRightLeading(coordinate, deltaDiff, locationTypeHalfPoint);
+                location.TravelCoordinate = locationPosition.BackUpperRight;
             }
 
-            return null;
+            location.Position = locationPosition;
+
+            return locationPosition;
         }
 
-        // TODO: Refactor this big method
         public Location GenerateLocation(Coordinate coordinate)
         {
             // Generate Location Type
             int locationTypeIndex = 0;
             long locationTypeHalfPoint = this.locationTypesWithHalfPoints[locationTypeIndex];
-
-            // Generate Location Coordinates
-            long deltaDiff = this.randomService.RandomNumber(0, locationTypeHalfPoint);
-
-            Position locationPosition = this.GenerateLocationPositionRelativeToOctant(coordinate, deltaDiff, locationTypeHalfPoint);
 
             LocationType locationType = this.GetLocationTypeEntity(locationTypeIndex);
 
@@ -311,8 +778,12 @@ namespace Idea.Service.LocationEngine
             {
                 Name = locationName,
                 LocationType = locationType,
-                Position = locationPosition
             };
+
+            // Generate Location Coordinates
+            long deltaDiff = this.randomService.RandomNumber(0, locationTypeHalfPoint);
+
+            this.GenerateLocationPositionRelativeToOctant(coordinate, deltaDiff, locationTypeHalfPoint, location);
 
             return location;
         }

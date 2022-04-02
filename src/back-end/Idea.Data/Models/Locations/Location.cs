@@ -13,5 +13,9 @@ namespace Idea.Data.Models.Locations
         public string PositionId { get; set; }
 
         public Position Position { get; set; }
+
+        public string TravelCoordinateId { get; set; }
+
+        public Coordinate TravelCoordinate { get; set; }
     }
 }

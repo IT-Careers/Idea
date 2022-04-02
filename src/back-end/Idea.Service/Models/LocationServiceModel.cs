@@ -11,5 +11,9 @@
         public string PositionId { get; set; }
 
         public PositionServiceModel Position { get; set; }
+
+        public string TravelCoordinateId { get; set; }
+
+        public CoordinateServiceModel TravelCoordinate { get; set; }
     }
 }
