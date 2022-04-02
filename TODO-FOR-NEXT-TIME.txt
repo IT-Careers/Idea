@@ -1,8 +1,8 @@
-LAST TIME: Generation of locations reworked. New generation uses 8 octants to always generate locations away from zero zero zero.
+LAST TIME: Implemented all 8 octants location generation. Implemented travel to location.
 
-NEXT TIME: We implemented only 2 octancts, so we have to implement other 6.
+NEXT TIME: Research if location generation is done correctly. There is doubts that checks are correct...
+Too many generated locations from previous time. Probably generate celestial bodies inside of location.
 
-TODO (maybe next time): Travelling to specific locations.
 TODO (maybe next time): Probably host this somewhere (heroku?).
 TODO (maybe next time): Also we need to generate Locations for Celestial bodies inside main location.
 

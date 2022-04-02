@@ -367,3 +367,10 @@ button:hover {
 .home-page-handler .settings-menu-modal .modal-dialog .modal-content {
     margin-top: 40% !important;
 }
+
+
+/* CUSTOM MODAL IDS */
+#locationTravelModal .modal-content {
+    width: 20% !important;
+    margin-top: 20% !important;
+}

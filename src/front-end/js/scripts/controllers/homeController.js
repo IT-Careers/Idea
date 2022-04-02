@@ -15,11 +15,48 @@ window.application.controllers.homeController = (() => {
             });
     }
     const refilterLocations = () => {
+        // TODO: When 2 locations are generated in a close Z Vicinity, they will appear stacked (one atop the other)
+        //       This will make flonky locations on the MAP. Probably, filter the closest one only, when problem emerges.
         const xLIMIT = 2_500_000_000_000_000;
         const yLIMIT = 2_500_000_000_000_000;
-        const zLIMIT = 15_000_000_000;
+        const zLIMIT = 2_500_000_000_000_000;
 
-        const attachNodeEvents = (node) => {
+        const attachLocationTravelModalEvents = (location) => {
+            const locationTravelButton = document.getElementById('location-travel-button');
+            const buttons = Object.values(locationTravelButton.parentNode.children);
+
+            console.log(locationTravelButton);
+
+            locationTravelButton.addEventListener('click', () => {
+                $('#' + location.name).modal('toggle');
+
+                const ftlx = location.travelCoordinate.x;
+                const ftly = location.travelCoordinate.y;
+                const ftlz = location.travelCoordinate.z;
+
+                shipService.travel(ftlx, ftly, ftlz)
+                    .then(json => {
+                        const shipInfo = getShipInfo();
+                        shipInfo.x = ftlx;
+                        shipInfo.y = ftly;
+                        shipInfo.z = ftlz;
+                        setShipInfo(shipInfo);
+                        refilterLocations();
+                    });
+            });
+
+            buttons.forEach(button => button.addEventListener('click', () => {
+                setTimeout(() => {
+                    const locationTravelModal = document.getElementById('locationTravelModal');
+
+                    if(locationTravelModal) {
+                        locationTravelModal.remove();
+                    }
+                }, 1000);
+            }));
+        }
+
+        const attachNodeEvents = (node, location) => {
             const labelNode = node.parentNode.parentNode.childNodes[3];
 
             node.addEventListener('mouseover', () => {
@@ -28,10 +65,21 @@ window.application.controllers.homeController = (() => {
             node.addEventListener('mouseout', () => {
                 labelNode.style.display = 'none';
             });
+            node.addEventListener('click', (e) => {
+                window.application.services.htmlService.loadFragment('location-travel-modal')
+                    .then(html => {
+                        html = html.replaceAll('\{location\}', location.name);
+                        const modalNode = document.createElement('temp');
+                        modalNode.innerHTML = html;
+                        const locationTravelModal = modalNode.childNodes[0];
+                        node.parentNode.appendChild(locationTravelModal);
+                        attachLocationTravelModalEvents(location);
+                        $('#' + location.name).modal({backdrop: true});
+                    });
+            });
         };
 
         getLocations((locations) => {
-            console.log(locations);
             const filterVicinity = (location, vicinity, limit) => {
                 const frontLowerLeft = Math.abs(location.position.frontLowerLeft[vicinity] - getShipInfo()[vicinity]) < limit;
                 const frontLowerRight = Math.abs(location.position.frontLowerRight[vicinity] - getShipInfo()[vicinity]) < limit;
@@ -42,15 +90,6 @@ window.application.controllers.homeController = (() => {
                 const backUpperLeft = Math.abs(location.position.backUpperLeft[vicinity] - getShipInfo()[vicinity]) < limit;
                 const backUpperRight = Math.abs(location.position.backUpperRight[vicinity] - getShipInfo()[vicinity]) < limit;
 
-                console.log(frontLowerLeft)
-                console.log(frontLowerRight)
-                console.log(frontUpperLeft)
-                console.log(frontUpperRight)
-                console.log(backLowerLeft)
-                console.log(backLowerRight)
-                console.log(backUpperLeft)
-                console.log(backUpperRight)
-
                 return frontLowerLeft || frontLowerRight || frontUpperLeft || frontUpperRight || backLowerLeft || backLowerRight || backUpperLeft || backUpperRight;
             }
             const filteredLocations = locations.filter(location => {
@@ -59,7 +98,7 @@ window.application.controllers.homeController = (() => {
                 const isInyVicinity = filterVicinity(location, "y", yLIMIT);
                 return isInzVicinity && isInxVicinity && isInyVicinity;
             });
-            console.log(filteredLocations);
+
             document.getElementsByClassName('full-map')[0].innerHTML = "";
 
             filteredLocations.forEach(location => {
@@ -80,9 +119,9 @@ window.application.controllers.homeController = (() => {
                         locationNode.style.position = 'absolute';
                         locationNode.style.left = (locationCoordinatexOffset + myCoordinatexOffset) + '%';
                         locationNode.style.top =  (locationCoordinateyOffset + myCoordinateyOffset) + '%';
-                        locationNode.childNodes[3].innerHTML = location.name;
+                        locationNode.childNodes[3].textContent = location.name;
                         document.getElementsByClassName('full-map')[0].appendChild(locationNode);
-                        attachNodeEvents(locationNode.childNodes[1].childNodes[1]);
+                        attachNodeEvents(locationNode.childNodes[1].childNodes[1], location);
                     });
             });
         });
